@@ -1,9 +1,12 @@
 #!/usr/bin/python2.7
 from imports import *
 
+global path2sigRV
+path2sigRV = '/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV'
+
 def get_data():
     '''get theoretical data from Lejeune+1998'''
-    d = np.loadtxt('/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/InputData/LCB98_corrected.tsv',
+    d = np.loadtxt('%s/InputData/LCB98_corrected.tsv'%path2sigRV,
     		   delimiter=';', skiprows=51).T
     g = d[0] <= 1e4
     Teff,logg,FeH,U_B,B_V,V_R,V_I,V_K,R_I,J_H,H_K,J_K = d[:,g]

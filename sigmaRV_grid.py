@@ -1,7 +1,7 @@
 from RVFollowupCalculator import *
 
-global SNRtarget
-SNRtarget = 1e2
+global SNRtarget, path2sigRV
+SNRtarget, path2sigRV = 1e2, '/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV'
 
 def compute_stellar_SNRs(band_str, R, Teff):
     '''Compute a grid of sigmaRVs for a single band and at a fixed spectral resolution.'''
@@ -18,7 +18,7 @@ def compute_stellar_SNRs(band_str, R, Teff):
 
     # get telluric spectrum
     transmission_fname = 'tapas_000001.ipac'
-    wlTAPAS, transTAPAS = np.loadtxt('/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/InputData/%s'%transmission_fname,
+    wlTAPAS, transTAPAS = np.loadtxt('%s/InputData/%s'%(path2sigRV, transmission_fname),
                                      skiprows=23).T
     wlTAPAS *= 1e-3  # microns
 

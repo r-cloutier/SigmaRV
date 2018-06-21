@@ -8,15 +8,16 @@ from create_pdf import *
 from Teff2color import *
 import rvs_custom as rvs
 
-global G, NGPmax
+global G, NGPmax, path2sigRV
 G, NGPmax = 6.67e-11, 1e2
+path2sigRV = '/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV'
 
 def nRV_calculator(Kdetsig,
-                   input_planet_fname='/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/InputFiles/user_planet.in',
-                   input_star_fname='/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/InputFiles/user_star.in',
-                   input_spectrograph_fname='/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/InputFiles/user_spectrograph.in',
-                   input_sigRV_fname='/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/InputFiles/user_sigRV.in',
-                   output_fname='/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/Results/RVFollowupCalculator.txt',
+                   input_planet_fname='%s/InputFiles/user_planet.in'%path2sigRV,
+                   input_star_fname='%s/InputFiles/user_star.in'%path2sigRV,
+                   input_spectrograph_fname='%s/InputFiles/user_spectrograph.in'%path2sigRV,
+                   input_sigRV_fname='%s/InputFiles/user_sigRV.in'%path2sigRV,
+                   output_fname='%s/Results/RVFollowupCalculator.txt'%path2sigRV,
                    duration=100, NGPtrials=0, verbose_results=True):
     '''
     Compute the number of RV measurements required to detect an input 
@@ -90,7 +91,7 @@ def nRV_calculator(Kdetsig,
 	    do_checks(throughput, maxtelluric)
 
             transmission_fname = 'tapas_000001.ipac'
-            wlTAPAS, transTAPAS = np.loadtxt('/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/InputData/%s'%transmission_fname,
+            wlTAPAS, transTAPAS = np.loadtxt('%s/InputData/%s'%(path2sigRV, transmission_fname),
                                              skiprows=23).T
             wlTAPAS *= 1e-3  # microns
             SNRtarget, sigRV_phot = _compute_sigRV_phot(band_strs, mags, Teff, logg,
@@ -381,7 +382,7 @@ def _get_absolute_stellar_magnitudes(Ms):
 
     # First set of isochrones (ubvri)
     logages,Mss,Mus,Mbs,Mvs,Mrs,Mis,Mjs,Mhs,Mks = \
-                                np.loadtxt('/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/InputData/isoc_z019_ubvrijhk.dat',
+                                np.loadtxt('%s/InputData/isoc_z019_ubvrijhk.dat'%path2sigRV,
                                 usecols=(0,1,7,8,9,10,11,12,13,14)).T
     g = abs(logages-logage) == np.min(abs(logages-logage))
     Mss,Mus,Mbs,Mvs,Mrs,Mis,Mjs,Mhs,Mks = Mss[g],Mus[g],Mbs[g],Mvs[g],Mrs[g], \
@@ -393,7 +394,7 @@ def _get_absolute_stellar_magnitudes(Ms):
                               Mhs[g],Mks[g]
     # Second set of isochrones (ZYJHK)
     logages2,Mss2,MZs,MYs,MJs,MHs,MKs = \
-                                np.loadtxt('/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/InputData/isoc_z019_ZYJHK.dat',
+                                np.loadtxt('%s/InputData/isoc_z019_ZYJHK.dat'%path2sigRV,
                                 usecols=(0,1,7,8,9,10,11)).T
     g = abs(logages2-logage) == np.min(abs(logages2-logage))
     Mss2,MZs,MYs,MJs,MHs,MKs = Mss2[g],MZs[g],MYs[g],MJs[g],MHs[g],MKs[g]

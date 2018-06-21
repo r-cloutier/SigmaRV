@@ -2,8 +2,8 @@
 from imports import *
 from scipy.interpolate import interp1d
 
-global G
-G = 6.67e-11
+global G, path2sigRV
+G, path2sigRV = 6.67e-11, '/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV'
 
 # Conversion functions
 def days2sec(t):
@@ -69,7 +69,7 @@ def planet_contrast(rp_Rearth, SMA_AU, albedo=.3):
 
 def get_baraffe_Ls(Ms, age=2):
     # Get Baraffe data
-    baraffe = np.loadtxt('/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/InputData/BCAH98.dat')
+    baraffe = np.loadtxt('%s/InputData/BCAH98.dat'%path2sigRV)
     barmass = baraffe[:,0]    # Msun
     barage = baraffe[:,1]     # Gyrs
     barTeff = baraffe[:,2]    # K

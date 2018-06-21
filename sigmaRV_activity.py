@@ -5,6 +5,8 @@ from scipy.interpolate import interp1d
 from astropy.io import ascii
 from Teff2color import *
 
+global path2sigRV
+path2sigRV = '/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV'
 
 def F82sigmaRV(F8, Teff):
     '''
@@ -44,7 +46,7 @@ def _get_F8(Teff):
     Get F8 values from Bastien+2013 after isolating dwarfs based on their 
     Xcrossing value describing the complexity of the light curve.
     '''
-    Teffs, F8, R, Z = np.loadtxt('/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/InputData/nature12419-s2.txt',
+    Teffs, F8, R, Z = np.loadtxt('%s/InputData/nature12419-s2.txt'%path2sigRV,
                                 usecols=(2,3,4,5)).T
     g = np.log10(Z) <= 1.85
     Teffs, F8 = Teffs[g], F8[g]
@@ -72,9 +74,9 @@ def _get_logRhk_OLD(Prot, Ms):
         
     # FGK star
     else:
-        lRhk1, Prot1 = np.loadtxt('/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/InputData/Lovisetal2011_withoutBcycle.dat',
+        lRhk1, Prot1 = np.loadtxt('%s/InputData/Lovisetal2011_withoutBcycle.dat'%path2sigRV,
                                   usecols=(4,9)).T
-        lRhk2, Prot2 = np.loadtxt('/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/InputData/Lovisetal2011_withBcycle.dat',
+        lRhk2, Prot2 = np.loadtxt('%s/InputData/Lovisetal2011_withBcycle.dat'%path2sigRV,
                                   usecols=(4,9)).T
         logRhks, Prots = np.append(lRhk1, lRhk2), np.append(Prot1, Prot2)
         # boundary conditions
@@ -213,7 +215,7 @@ def get_prot_kepler(Teff, seed=None):
         The star's sampled rotation period in days
 
     '''
-    Teffs, Prots = np.loadtxt('/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/InputData/asu.tsv', skiprows=37).T
+    Teffs, Prots = np.loadtxt('%s/InputData/asu.tsv'%path2sigRV, skiprows=37).T
     # Isolate range of effective temperatures
     dT = 1e2
     if Teff > Teffs.max():
@@ -234,7 +236,7 @@ def draw_prot_empirical(Ms):
     Pizzolato+2003 (FGK) or Newton+2016 (M dwarfs).
     '''
     if Ms > .6:
-        B_Vs, Prots, Mss = np.loadtxt('/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/InputData/PizzolatoData.tsv',
+        B_Vs, Prots, Mss = np.loadtxt('%s/InputData/PizzolatoData.tsv'%path2sigRV,
                                       skiprows=35).T
     else:
         Prots, Mss, As, _ = read_newtondata()
@@ -283,7 +285,7 @@ def draw_age():
     Get age from the stellar age distribution of exoplanet hosting Solar-type 
     stars from Silva-Aguirre et al 2015.
     '''
-    ages, eages = np.loadtxt('/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/InputData/ExoplanetHostStarAges.tsv',
+    ages, eages = np.loadtxt('%s/InputData/ExoplanetHostStarAges.tsv'%path2sigRV,
                              skiprows=37).T
     ind = np.random.choice(np.arange(ages.size))
     return (ages[ind] + np.random.randn() * eages[ind]) * 1e3  # in Myr
@@ -294,7 +296,7 @@ def read_newtondata():
     Read the M dwarf rotation periods, masses, and photmetric variability 
     amplitudes into numpy arrays.
     '''
-    data = ascii.read('/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV/InputData/newton16.txt')
+    data = ascii.read('%s/InputData/newton16.txt'%path2sigRV)
     nstars = data['P'].size
     Prots = np.zeros(0)
     Mss = np.zeros(0)
