@@ -5,6 +5,11 @@ SNRtarget, path2sigRV = 1e2, '/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV'
 
 def compute_stellar_SNRs(band_str, R, Teff, logg):
     '''Compute a grid of sigmaRVs for a single band and at a fixed spectral resolution.'''
+    # check if output already exists
+    fname = 'sigmaRVgrids/sigmaRVgrid_band%s_R%i_Teff%i_logg%.1f'%(band_str,R,Teff,logg)
+    if os.path.exists(fname):
+	return None
+
     # get round values for PHOENIX stellar models
     #Teffs = np.append(np.arange(23e2,7e3,1e2), np.arange(7e3,121e2,2e2))
     #loggs = np.arange(0, 6.1, .5)
@@ -33,7 +38,7 @@ def compute_stellar_SNRs(band_str, R, Teff, logg):
 
     # save grid
     hdu = fits.PrimaryHDU(sigmaRVs)
-    hdu.writeto('sigmaRVgrids/sigmaRVgrid_band%s_R%i_Teff%i_logg%.1d'%(band_str,R,Teff,logg), clobber=True)
+    hdu.writeto(fname, clobber=True)
 
 
 
@@ -41,6 +46,6 @@ if __name__ == '__main__':
     band_str = sys.argv[1]
     R = int(sys.argv[2])
     Teff = int(sys.argv[3])
-    logg = int(sys.argv[4])
+    logg = float(sys.argv[4])
     # use mag, texp, aperture, throughput to set the S/R and scale the results from a fixed S/R=100
     compute_stellar_SNRs(band_str, R, Teff, logg)
