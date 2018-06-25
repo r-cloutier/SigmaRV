@@ -3,8 +3,8 @@ import numpy as np
 
 band_strs = ['B','V','R','Y','J','H','K','U','I']
 Rs = np.arange(20e3,161e3,2e4)
-Teffs = np.append(np.arange(23e2,7e3,1e2), np.arange(7e3,121e2,2e2))[0:1]
-loggs = np.arange(0, 6.1, .5)
+Teffs = np.append(np.arange(28e2,7e3,1e2), np.arange(7e3,121e2,2e2))[0:1]
+loggs = np.arange(2, 6.1, .5)
 
 for i in range(len(band_strs)):
     for j in range(Rs.size):
