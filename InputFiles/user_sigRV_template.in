@@ -1,0 +1,12 @@
+## user_sigRV.in
+## The formatting of this input file is important and must remain unchanged to ensure the proper reading of the parameters contained within.
+## Exposure time (in minutes)
+<<texp>>
+## Photon-noise limited RV measurement precision (in m/s). If set to zero, then it is computed from a model stellar spectrum 
+<<sigRVphot>>
+## RV activity rms (in m/s). Set to a negative value to sample its value rather than specifying it
+<<sigRVact>>
+## RV rms from additional planets (in m/s). Set to a negative value to sample its value rather than specifying it
+<<sigRVplanets>>
+## Effective RV rms (in m/s). Set to a non-zero value to be used verbatim rather than being calculated from the photon-noise limited RV rms, activity, and additional planet contributions
+<<sigRVeff>>

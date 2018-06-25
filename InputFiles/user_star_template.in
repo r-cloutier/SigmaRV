@@ -1,0 +1,16 @@
+## user_star.in
+## The formatting of this input file is important and must remain unchanged to ensure the proper reading of the parameters contained within.
+## Stellar magnitude in either V or J band. The spectral coverage of the spectrograph will dictate which one.
+<<mag>>
+## Stellar mass (in Solar masses)
+<<Ms>>
+## Stellar radius (in Solar radii)
+<<Rs>>
+## Effective temperature (in Kelvin)
+<<Teff>>
+## Metallicity (Fe/H)
+<<Z>>
+## Projected stellar rotation velocity (in km/s)
+<<vsini>>
+## Rotation period (in days)
+<<Prot>>

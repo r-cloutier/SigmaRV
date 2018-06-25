@@ -1,0 +1,8 @@
+## user_planet.in
+## The formatting of this input file is important and must remain unchanged to ensure the proper reading of the parameters contained within.
+## Orbital period (in days)
+<<P>>
+## Planetary radius (in Earth radii)
+<<rp>>
+## Planetary mass (in Earth masses). Set to zero to estimate the planetary mass from the radius and mass-radius relationship
+<<mp>>
