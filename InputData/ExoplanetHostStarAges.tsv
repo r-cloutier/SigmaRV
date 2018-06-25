@@ -1,0 +1,71 @@
+#
+#   VizieR Astronomical Server vizier.cfa.harvard.edu
+#    Date: 2017-11-03T22:26:47 [V1.99+ (14-Oct-2013)]
+#   In case of problem, please report to:	cds-question@unistra.fr
+#
+#
+#Coosys	J2000:	eq_FK5 J2000
+#INFO	votable-version=1.99+ (14-Oct-2013)	
+#INFO	-ref=VIZ59fcec05f444	
+#INFO	-out.max=9999	
+#INFO	queryParameters=12	
+#-oc.form=dec
+#-out.max=9999
+#-nav=cat:J/MNRAS/452/2127&tab:{J/MNRAS/452/2127/table3}&key:source=J/MNRAS/452/2127/table3&HTTPPRM:&
+#-c.eq=J2000
+#-c.r=  2
+#-c.u=arcmin
+#-c.geom=r
+#-source=J/MNRAS/452/2127/table3
+#-order=I
+#-out=Age
+#-out=E_Age
+#Simbad=Simbad
+#
+
+#RESOURCE=yCat_74522127
+#Name: J/MNRAS/452/2127
+#Title: Fundamental parameters of Kepler stars (Silva Aguirre+, 2015)
+#Coosys	J2000_2000.000:	eq_FK5 J2000
+#Table	J_MNRAS_452_2127_table3:
+#Name: J/MNRAS/452/2127/table3
+#Title: Recommended set of stellar properties and statistical uncertainties of exoplanet candidate host stars as determined with BASTA
+#Column	Age	(F5.2)	Age	[ucd=time.age]
+#Column	E_Age	(F5.2)	Error on Age (upper value) (1)	[ucd=stat.error;stat.max]
+Age	E_Age
+Gyr	Gyr
+-----	-----
+ 2.11	 0.29
+ 5.60	 0.45
+ 6.71	 0.77
+ 6.50	 0.46
+ 2.60	 0.56
+ 6.63	 0.62
+10.23	 0.83
+ 3.89	 0.59
+ 6.67	 0.69
+ 8.03	 0.80
+ 6.35	 1.05
+ 3.45	 0.81
+ 5.35	 0.91
+ 6.31	 0.32
+ 3.85	 0.81
+ 3.59	 0.78
+ 7.84	 0.40
+ 3.32	 0.85
+ 2.78	 0.62
+ 6.23	 0.56
+ 6.43	 0.64
+ 5.14	 0.86
+ 7.10	 0.61
+ 3.27	 0.59
+11.27	 1.50
+ 5.52	 0.51
+ 2.33	 0.18
+ 2.62	 0.26
+ 2.65	 0.14
+ 2.60	 0.16
+ 4.18	 0.53
+ 6.98	 0.40
+11.54	 0.99
+
