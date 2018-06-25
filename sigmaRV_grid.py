@@ -6,6 +6,10 @@ SNRtarget, path2sigRV = 1e2, '/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV'
 def compute_stellar_SNRs(band_str, R, Teff, logg):
     '''Compute a grid of sigmaRVs for a single band and at a fixed spectral resolution.'''
     # check if output already exists
+    try:
+	os.mkdir('sigmaRVgrids')
+    except OSError:
+	pass
     fname = 'sigmaRVgrids/sigmaRVgrid_band%s_R%i_Teff%i_logg%.1f'%(band_str,R,Teff,logg)
     if os.path.exists(fname):
 	return None
@@ -33,8 +37,8 @@ def compute_stellar_SNRs(band_str, R, Teff, logg):
 	for l in range(vsinis.size):
 	    wl, spec = get_reduced_spectrum(Teff, logg, Zs[k], vsinis[l],
 					    band_str, R, centralwl_microns, SNRtarget)
-	    sigmaRVs[j,k,l] = compute_sigmaRV_grid(wl, spec, band_str, 
-						   R, .02, wlTAPAS, transTAPAS)
+	    sigmaRVs[k,l] = compute_sigmaRV_grid(wl, spec, band_str, 
+						 R, .02, wlTAPAS, transTAPAS)
 
     # save grid
     hdu = fits.PrimaryHDU(sigmaRVs)
