@@ -1,9 +1,10 @@
 #!/usr/bin/python2.7
 from imports import *
 
-global c, h, bands
+global c, h, bands, path2sigRV
 c, h = 299792458., 6.62607004e-34
 bands = ['U','B','V','R','I','Y','J','H','K']
+path2sigRV = '/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV'
 
 
 def get_reduced_spectrum(Teff, logg, Z, vsini, band_str, R,
@@ -65,8 +66,9 @@ def _get_wavelengthgrid():
         coverage)
 
     '''
-    fname = "ftp://phoenix.astro.physik.uni-goettingen.de/HiResFITS/" + \
-            "WAVE_PHOENIX-ACES-AGSS-COND-2011.fits"
+    fname = "%s/HiResFITS/WAVE_PHOENIX-ACES-AGSS-COND-2011.fits"%path2sigRV
+    #fname = "ftp://phoenix.astro.physik.uni-goettingen.de/HiResFITS/" + \
+    #        "WAVE_PHOENIX-ACES-AGSS-COND-2011.fits"
     wl_fits = fits.open(fname)[0]
     return np.ascontiguousarray(wl_fits.data) * 1e-4  # in microns
 
@@ -107,8 +109,9 @@ def _get_full_spectrum(Teff, logg, Z):
 	Zstr = '%.1f'%Z
 
     # Download the spectrum
-    prefix = "ftp://phoenix.astro.physik.uni-goettingen.de/HiResFITS/" + \
-             "PHOENIX-ACES-AGSS-COND-2011/"
+    prefix = "%s/HiResFITS/PHOENIX-ACES-AGSS-COND-2011/"%path2sigRV
+    #prefix = "ftp://phoenix.astro.physik.uni-goettingen.de/HiResFITS/" + \
+    #         "PHOENIX-ACES-AGSS-COND-2011/"
     fname = "Z%s/lte%.5d-%.2f%s"%(Zstr, Teff, logg, Zstr) + \
             ".PHOENIX-ACES-AGSS-COND-2011-HiRes.fits"
     spec_fits = fits.open(prefix+fname)[0]
