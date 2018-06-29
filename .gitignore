@@ -1,4 +1,5 @@
 *~
+#*
 *pyc
 *tmp*
 *notes*
@@ -6,4 +7,5 @@
 *gz
 *numbers
 /paper
+/plots
 /sigmaRVgrids
