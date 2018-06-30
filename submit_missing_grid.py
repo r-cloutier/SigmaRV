@@ -1,4 +1,4 @@
-import os
+import os, time
 import numpy as np
 
 def get_params_from_fname(fname):
@@ -30,3 +30,6 @@ for i in range(start,end):
     #os.system('cat jobscript')
     os.system('qsub jobscript')
     os.system('rm jobscript')
+
+    # rest for 5 seconds
+    time.sleep(5)
