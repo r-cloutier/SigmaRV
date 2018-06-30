@@ -37,8 +37,11 @@ def compute_stellar_SNRs(band_str, R, Teff, logg):
 	for l in range(vsinis.size):
 	    wl, spec = get_reduced_spectrum(Teff, logg, Zs[k], vsinis[l],
 					    band_str, R, centralwl_microns, SNRtarget)
-	    sigmaRVs[k,l] = compute_sigmaRV_grid(wl, spec, band_str, 
-						 R, .02, wlTAPAS, transTAPAS)
+	    if np.any(spec == None):
+		sigmaRVs[k,l] = np.nan
+	    else:
+	    	sigmaRVs[k,l] = compute_sigmaRV_grid(wl, spec, band_str, 
+						     R, .02, wlTAPAS, transTAPAS)
 
     # save grid
     hdu = fits.PrimaryHDU(sigmaRVs)

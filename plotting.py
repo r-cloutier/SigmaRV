@@ -12,6 +12,34 @@ cbticklabels = np.repeat('', cbticks.size).astype('|S3')
 cbticklabels[np.array([5,7,14,16,23])] = ['1','3','10','30','100']
 
 
+
+def get_missing_files():
+    # define grids
+    Rs = np.arange(20e3, 161e3, 2e4)
+    Teffs = np.append(np.arange(28e2,7e3,1e2), np.arange(7e3,121e2,2e2))
+    loggs = np.arange(2, 6.1, .5)
+
+    missing, missing_arr = '', np.zeros(0).astype('|S60')
+    for b in band_strs:
+        for r in Rs:
+            for t in Teffs:
+                for l in loggs:
+                    fname = 'sigmaRVgrids/sigmaRVgrid_band%s_R%i_Teff%i_logg%.1f'%(b, r, t, l)
+                    if os.path.exists(fname):
+                        pass
+                    else:
+                        missing += '%s\n'%fname
+                        missing_arr = np.append(missing_arr, fname)
+
+    # write missing files
+    h = open('missing_sigmaRV_files', 'w')
+    h.write(missing)
+    h.close()
+
+    return missing_arr
+        
+
+
 def get_oneband(band_str):
     # define grids
     Rs = np.arange(20e3, 161e3, 2e4)
@@ -34,7 +62,7 @@ def get_oneband(band_str):
 
     # save
     hdu = fits.PrimaryHDU(sigRV_grid)
-    hdu.writeto('sigmaRVgrids/SigmaRV_%sgrid'%band_str, overwrite=True)
+    hdu.writeto('SigmaRV_Grids/SigmaRV_%sgrid'%band_str, overwrite=True)
 
 
 
@@ -48,6 +76,7 @@ def plot_grid(pltt=True, label=False, vmin=.5, vmax=1e2):
     
     fig = plt.figure(figsize=(10,6))
     for i in range(Nband):
+    #for i in [0,4,8]:
 
         # get band data
         try:
@@ -73,10 +102,10 @@ def plot_grid(pltt=True, label=False, vmin=.5, vmax=1e2):
             axr.set_xticklabels('')
                 
             if i == 0:
-                cbar_axes = fig.add_axes([.25,.1,.5,.03])
+                cbar_axes = fig.add_axes([.25,.08,.5,.03])
                 cbar = fig.colorbar(cax, cax=cbar_axes, ticks=cbticks,
                                     orientation='horizontal')
-                cbar.set_label('$\sigma_{RV}$ [m s$^{-1}$]')
+                cbar.set_label('$\sigma_{RV}$ [m s$^{-1}$]', labelpad=-1)
                 cbar.ax.set_xticklabels(cbticklabels)
                 
             # plot Teff v logg
@@ -119,19 +148,23 @@ def plot_grid(pltt=True, label=False, vmin=.5, vmax=1e2):
             if i == 0:
                 axv.set_yticklabels(['0.1','1','10'], fontsize=9)
                 axv.set_ylabel('v$_s$sini$_s$\n[km s$^{-1}$]', fontsize=10)
+            elif i == 4:
+                axv.set_yticklabels('')
+                axv.text(-.75, -.4, 'T$_{eff}$ x 10$^{-3}$\t[K]', fontsize=12,
+                         transform=axv.transAxes)
             else:
                 axv.set_yticklabels('')
             axv.set_ylim((.05,50)), axv.set_xlim((28e2,12e3))
             axv.set_xticks(np.arange(3e3,13e3,3e3))
             axv.set_xticklabels(range(3,13,3), fontsize=9)
-            axv.set_xlabel('T$_{eff}$\n[x10$^3$ K]', fontsize=10)
+            #axv.set_xlabel('T$_{eff}$\n[x10$^3$ K]', fontsize=10)
             
         except IOError:
             pass
     
-    fig.subplots_adjust(left=.1, bottom=.25, top=.96, right=.98)
+    fig.subplots_adjust(left=.1, bottom=.2, top=.96, right=.98)
     if label:
-        plt.savefig(
+        plt.savefig('plots/sigRV_grid.png')
     if pltt:
         plt.show()
     plt.close('all')
@@ -140,6 +173,6 @@ def plot_grid(pltt=True, label=False, vmin=.5, vmax=1e2):
 
 def reduce_dimension(arr, axes):
     axes = np.sort(list(axes))[::-1]
-    for i in range(len(axes)):
-        arr = np.median(arr, axis=axes[i])
+    for i in range(len(axes)):        
+        arr = np.nanmedian(arr, axis=axes[i])
     return arr

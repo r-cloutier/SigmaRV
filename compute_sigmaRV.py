@@ -45,6 +45,8 @@ def get_reduced_spectrum(Teff, logg, Z, vsini, band_str, R,
     '''
     wl = _get_wavelengthgrid()
     _, spectrum = _get_full_spectrum(float(Teff), float(logg), float(Z))    
+    if np.any(spectrum == None):
+	return None, None
     wl_conv, spec_conv = _convolve_band_spectrum(wl, spectrum, band_str, R)
     if vsini > 0:
         spec_conv = _rotational_convolution(wl_conv, spec_conv, vsini)
@@ -114,7 +116,10 @@ def _get_full_spectrum(Teff, logg, Z):
              "PHOENIX-ACES-AGSS-COND-2011/"
     fname = "Z%s/lte%.5d-%.2f%s"%(Zstr, Teff, logg, Zstr) + \
             ".PHOENIX-ACES-AGSS-COND-2011-HiRes.fits"
-    spec_fits = fits.open(prefix+fname)[0]
+    try:
+      	spec_fits = fits.open(prefix+fname)[0]
+    except IOError:
+	return None, None
 
     return spec_fits.header, spec_fits.data
 
