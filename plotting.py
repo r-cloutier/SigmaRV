@@ -1,5 +1,6 @@
 from imports import *
 from matplotlib.colors import LogNorm
+from scipy.ndimage.filters import gaussian_filter
 
 
 global band_strs, Nband, NR, NTeff, Nlogg, NZ, Nvsini
@@ -80,13 +81,13 @@ def plot_grid(pltt=True, label=False, vmin=.5, vmax=1e2):
 
         # get band data
         try:
-            fname = 'sigmaRVgrids/SigmaRV_%sgrid'%band_strs[i]
+            fname = 'SigmaRV_Grids/SigmaRV_%sgrid'%band_strs[i]
             sigRVgrid = fits.open(fname)[0].data
             assert sigRVgrid.shape == (NR,NTeff,Nlogg,NZ,Nvsini)
             
             # plot Teff v R
             axr = fig.add_subplot(4,Nband,i+1)
-            axr.text(.5, 1.07, '%s'%band_strs[i], weight='semibold',
+            axr.text(.5, 1.07, '%s'%band_strs[i], weight='normal',
                      horizontalalignment='center', transform=axr.transAxes)
             cax = axr.pcolormesh(Teffs, Rs,
                                  reduce_dimension(sigRVgrid,(2,3,4)),
@@ -169,10 +170,13 @@ def plot_grid(pltt=True, label=False, vmin=.5, vmax=1e2):
         plt.show()
     plt.close('all')
 
-        
 
-def reduce_dimension(arr, axes):
+
+def reduce_dimension(arr, axes, sigma=1):
     axes = np.sort(list(axes))[::-1]
     for i in range(len(axes)):        
         arr = np.nanmedian(arr, axis=axes[i])
-    return arr
+    if sigma == 0:
+        return arr
+    else:
+        return gaussian_filter(arr, sigma)
