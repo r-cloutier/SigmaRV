@@ -67,7 +67,7 @@ def get_oneband(band_str):
 
 
 
-def plot_grid(pltt=True, label=False, vmin=.5, vmax=1e2):
+def plot_grid(pltt=True, label=False, vmin=.5, vmax=5e2):
     # define grids
     Rs = np.arange(20e3, 161e3, 2e4)
     Teffs = np.append(np.arange(28e2,7e3,1e2), np.arange(7e3,121e2,2e2))
@@ -75,7 +75,7 @@ def plot_grid(pltt=True, label=False, vmin=.5, vmax=1e2):
     Zs = np.append(np.arange(-4,-1,dtype=float), np.arange(-1.5,1.5,.5))
     vsinis = np.array([.05,.1,.5,1.,5.,10.,50.])
     
-    fig = plt.figure(figsize=(10,6))
+    fig = plt.figure(figsize=(10,5.5))
     for i in range(Nband):
     #for i in [0,4,8]:
 
@@ -163,7 +163,7 @@ def plot_grid(pltt=True, label=False, vmin=.5, vmax=1e2):
         except IOError:
             pass
     
-    fig.subplots_adjust(left=.1, bottom=.2, top=.96, right=.98)
+    fig.subplots_adjust(left=.09, bottom=.2, top=.95, right=.99, hspace=.07, wspace=.07)
     if label:
         plt.savefig('plots/sigRV_grid.png')
     if pltt:
@@ -172,7 +172,7 @@ def plot_grid(pltt=True, label=False, vmin=.5, vmax=1e2):
 
 
 
-def reduce_dimension(arr, axes, sigma=1):
+def reduce_dimension(arr, axes, sigma=0):
     axes = np.sort(list(axes))[::-1]
     for i in range(len(axes)):        
         arr = np.nanmedian(arr, axis=axes[i])
