@@ -1,5 +1,6 @@
 from RVFollowupCalculator import *
 
+
 global SNRtarget, path2sigRV
 SNRtarget, path2sigRV = 1e2, '/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV'
 

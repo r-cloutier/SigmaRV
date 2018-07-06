@@ -2,7 +2,7 @@
 from imports import *
 
 global path2sigRV
-path2sigRV = '/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV'
+path2sigRV = '.'#/mnt/scratch-lustre/cloutier/SigmaRV/SigmaRV'
 
 def get_data():
     '''get theoretical data from Lejeune+1998'''
