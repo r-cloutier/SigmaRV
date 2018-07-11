@@ -5,7 +5,7 @@ from scipy.ndimage.filters import gaussian_filter
 
 global band_strs, Nband, NR, NTeff, Nlogg, NZ, Nvsini
 band_strs = ['U','B','V','R','I','Y','J','H','K']
-Nband, NR, NTeff, Nlogg, NZ, Nvsini = 9, 8, 68, 9, 9, 7
+Nband, NR, NTeff, Nlogg, NZ, Nvsini = 9, 10, 68, 9, 9, 7
 
 cbticks = np.append(np.append(np.append(np.arange(.3,1,.1),np.arange(1,10,1)),
                     			np.arange(10,100,10)),np.arange(100,301,100))
@@ -16,7 +16,7 @@ cbticklabels[np.array([0,7,9,16,18,25,27])] = ['0.3','1','3','10','30','100','30
 
 def get_missing_files():
     # define grids
-    Rs = np.arange(20e3, 161e3, 2e4)
+    Rs = np.arange(20e3, 201e3, 2e4)
     Teffs = np.append(np.arange(28e2,7e3,1e2), np.arange(7e3,121e2,2e2))
     loggs = np.arange(2, 6.1, .5)
 
@@ -43,7 +43,7 @@ def get_missing_files():
 
 def get_oneband(band_str):
     # define grids
-    Rs = np.arange(20e3, 161e3, 2e4)
+    Rs = np.arange(20e3, 201e3, 2e4)
     Teffs = np.append(np.arange(28e2,7e3,1e2), np.arange(7e3,121e2,2e2))
     loggs = np.arange(2, 6.1, .5)
     Zs = np.append(np.arange(-4,-1,dtype=float), np.arange(-1.5,1.5,.5))
@@ -69,7 +69,7 @@ def get_oneband(band_str):
 
 def plot_grid(pltt=True, label=False, vmin=.3, vmax=3e2):
     # define grids
-    Rs = np.arange(20e3, 161e3, 2e4)
+    Rs = np.arange(20e3, 201e3, 2e4)
     Teffs = np.append(np.arange(28e2,7e3,1e2), np.arange(7e3,121e2,2e2))
     loggs = np.arange(2, 6.1, .5)
     Zs = np.append(np.arange(-4,-1,dtype=float), np.arange(-1.5,1.5,.5))
@@ -77,7 +77,6 @@ def plot_grid(pltt=True, label=False, vmin=.3, vmax=3e2):
     
     fig = plt.figure(figsize=(10,5.5))
     for i in range(Nband):
-    #for i in [0,4,8]:
 
         # get band data
         try:
@@ -93,13 +92,13 @@ def plot_grid(pltt=True, label=False, vmin=.3, vmax=3e2):
                                  reduce_dimension(sigRVgrid,(2,3,4)),
                                  cmap=plt.get_cmap('rainbow'),
                                  norm=LogNorm(vmin=vmin, vmax=vmax))
-            axr.set_yticks(np.arange(5e4,16e4,5e4))
+            axr.set_yticks(np.arange(5e4,2.1e5,5e4))
             if i == 0:
-                axr.set_yticklabels(['50,000','100,000','150,000'], fontsize=9)
+                axr.set_yticklabels(['50,000','100,000','150,000','200,000'], fontsize=9)
                 axr.set_ylabel('Spectral\nResolution', fontsize=10)
             else:
                 axr.set_yticklabels('')
-            axr.set_ylim((2e4,16e4)), axr.set_xlim((28e2,12e3))
+            axr.set_ylim((2e4,2e5)), axr.set_xlim((28e2,12e3))
             axr.set_xticklabels('')
                 
             if i == 0:
@@ -118,7 +117,7 @@ def plot_grid(pltt=True, label=False, vmin=.3, vmax=3e2):
             axl.set_yticks(range(2,7,2))
             if i == 0:
                 axl.set_yticklabels(range(2,7,2), fontsize=9)
-                axl.set_ylabel('log g', fontsize=10)
+                axl.set_ylabel('log g\n(cgs)', fontsize=10)
             else:
                 axl.set_yticklabels('')
             axl.set_ylim((2,6)), axl.set_xlim((28e2,12e3))
@@ -133,7 +132,7 @@ def plot_grid(pltt=True, label=False, vmin=.3, vmax=3e2):
             axz.set_yticks(range(-4,2,2))
             if i == 0:
                 axz.set_yticklabels(range(-4,2,2), fontsize=9)
-                axz.set_ylabel('Z', fontsize=10)
+                axz.set_ylabel('Z\n([Fe/H])', fontsize=10)
             else:
                 axz.set_yticklabels('')
             axz.set_ylim((-4,1)), axz.set_xlim((28e2,12e3))
@@ -148,7 +147,7 @@ def plot_grid(pltt=True, label=False, vmin=.3, vmax=3e2):
             axv.set_yscale('log'), axv.set_yticks(np.logspace(-1,1,3))
             if i == 0:
                 axv.set_yticklabels(['0.1','1','10'], fontsize=9)
-                axv.set_ylabel('v$_s$sini$_s$\n[km s$^{-1}$]', fontsize=10)
+                axv.set_ylabel('vsini$_s$\n(km s$^{-1}$)', fontsize=10)
             elif i == 4:
                 axv.set_yticklabels('')
                 axv.text(-.68, -.4, 'T$_{eff}$ x 10$^{-3}$\t[K]', fontsize=12,
